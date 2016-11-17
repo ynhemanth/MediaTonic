@@ -1,0 +1,144 @@
+﻿<div class="jumbotron">
+    <h2>Users Owns three different types of animals</h2>
+    <p class="lead">All the three different animals metrics increases or decreases at different levels</p>
+    <div class="col-lg-4">
+        <h4>First Animal Happiness &amp; Hunger Metrics</h4>
+        <select id="Animal1feedingDD">
+            <option value="neutral"> neutral</option>
+            <option value="normal"> normal</option>
+            <option value="more"> more</option>
+            <option value="high"> high</option>
+            <option value="very high"> very high</option>
+            <option value="even more high"> even more high</option>
+        </select><br /><br />
+    </div>
+    <div class="col-lg-4">
+        <h4>Second Animal Happiness &amp; Hunger Metrics</h4>
+        <select id="Animal2feedingDD">
+            <option value="neutral"> neutral</option>
+            <option value="normal"> normal</option>
+            <option value="more"> more</option>
+            <option value="high"> high</option>
+            <option value="very high"> very high</option>
+            <option value="even more high"> even more high</option>
+        </select><br /><br />
+    </div>
+    <div class="col-lg-4">
+        <h4>Third Animal Happiness &amp; Hunger Metrics</h4>
+        <select id="Animal3feedingDD">
+            <option value="neutral"> neutral</option>
+            <option value="normal"> normal</option>
+            <option value="more"> more</option>
+            <option value="high"> high</option>
+            <option value="very high"> very high</option>
+            <option value="even more high"> even more high</option>
+        </select><br /><br />
+    </div>
+    <button id="AllLevelAnimal">Feeding animal</button>
+    <br />
+    <h3 id="AllAnimalfeeding"></h3>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Petting Animals</h2>
+        <button id="pettingAnimal">Pet an animal</button>
+        <br />
+        <h3 id="petting"></h3>
+    </div>
+    <div class="col-md-4">
+        <h2>Feeing Animals</h2>
+        <select id="feeingDD" style="width:50px">
+            <option value="0"> 0</option>
+            <option value="1"> 1</option>
+            <option value="2"> 2</option>
+            <option value="3"> 3</option>
+            <option value="4"> 4</option>
+            <option value="5"> 5</option>
+        </select><br /><br />
+        <button id="feeingAnimal">Fee an animal</button>
+        <br />
+        <h3 id="feeing"></h3>
+    </div>
+    <div class="col-md-4">
+        <h2>Animals' Happiness &amp; Hunger Metrics</h2>
+        <select id="feedingDD">
+            <option value="neutral"> neutral</option>
+            <option value="normal"> normal</option>
+            <option value="more"> more</option>
+            <option value="high"> high</option>
+            <option value="very high"> very high</option>
+            <option value="even more high"> even more high</option>
+        </select><br /><br />
+        <button id="HappynHungerAnimal">Feeding animal</button>
+        <br />
+        <h3 id="feeding"></h3>
+    </div>
+</div>
+
+<script>
+    $('#pettingAnimal').click(function () {
+        $.ajax({
+            url: '/api/PettingGame/PettingAnimals',
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .success(function (result) {
+            $('#petting').html(result);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+
+    });
+
+    $('#feeingAnimal').click(function () {
+        var selectedVal = $('#feeingDD :selected').text();
+        $.ajax({
+            url: '/api/PettingGame/FeeingAnimals/?val=' + selectedVal,
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .success(function (result) {
+            $('#feeing').html(result);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+
+    });
+
+    $('#HappynHungerAnimal').click(function () {
+        var selectedVal = $('#feedingDD :selected').text();
+        $.ajax({
+            url: '/api/PettingGame/HappinessHungerCalculator/?level=' + selectedVal,
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .success(function (result) {
+            $('#feeding').html(result);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+
+    });
+
+    $('#AllLevelAnimal').click(function () {
+        $.ajax({
+            url: '/api/PettingGame/AllHappinessHungerCalculator/?level1=' + $('#Animal1feedingDD :selected').text() + "&level2=" + $('#Animal2feedingDD :selected').text() + "&level3=" + $('#Animal3feedingDD :selected').text(),
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            dataType: 'html'
+        })
+        .success(function (result) {
+            $('#AllAnimalfeeding').html(result);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+
+    });
+</script>
